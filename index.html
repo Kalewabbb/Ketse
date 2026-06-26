@@ -20,8 +20,8 @@
       justify-content: center;
       padding: 20px;
       text-align: center;
-      /* BACKGROUND: ONLY the photo. If it fails, you'll see grey so you know something is wrong */
-      background: #d3d3d3 url('IMG_20250711_003152_970.jpg') center/cover no-repeat fixed;
+      /* BACKGROUND: ONLY the photo – no grey fallback, no tint */
+      background: url('IMG_20250711_003152_970.jpg') center/cover no-repeat fixed;
     }
 
     .card {
@@ -85,11 +85,6 @@
     .now-playing {
       font-size: 0.9rem;
       color: #888;
-    }
-    .audio-note {
-      font-size: 0.8rem;
-      color: #e85d75;
-      margin-top: 5px;
     }
 
     .cake-area { margin: 30px 0; position: relative; }
@@ -236,7 +231,6 @@
       <button id="playBtn" class="audio-btn">▶️</button>
       <span class="now-playing">Henok Abebe - Leyu Ken</span>
     </div>
-    <p class="audio-note">🔊 Tap play (if it doesn't start, an alert will explain why)</p>
     <audio id="birthdayAudio" loop>
       <source src="Henok Abebe - Leyu Ken.mp3" type="audio/mpeg">
     </audio>
@@ -306,10 +300,6 @@
     const playBtn = document.getElementById('playBtn');
     let isPlaying = false;
 
-    audio.addEventListener('error', () => {
-      alert('❌ Music file not found!\nMake sure "Henok Abebe - Leyu Ken.mp3" is uploaded EXACTLY like that (spaces, capitals, .mp3).');
-    });
-
     playBtn.addEventListener('click', () => {
       if (isPlaying) {
         audio.pause();
@@ -320,7 +310,7 @@
           playBtn.textContent = '⏸️';
           isPlaying = true;
         }).catch(err => {
-          alert('🎵 Could not play music.\n' + err.message + '\n\nCheck that the MP3 file exists and is named correctly.');
+          alert('🎵 Could not play music. ' + err.message);
         });
       }
     });
