@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🎂 Happy Birthday Ketsela!</title>
-  <!-- Confetti library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
   <style>
     * {
@@ -21,9 +20,8 @@
       justify-content: center;
       padding: 20px;
       text-align: center;
-      /* BACKGROUND: Only the photo – no colour overlay */
-      background: url('IMG_20250711_003152_970.jpg')
-                  center/cover no-repeat fixed;
+      /* BACKGROUND: ONLY the photo. If it fails, you'll see grey so you know something is wrong */
+      background: #d3d3d3 url('IMG_20250711_003152_970.jpg') center/cover no-repeat fixed;
     }
 
     .card {
@@ -53,7 +51,6 @@
       color: #4a4a4a;
     }
 
-    /* Audio player style */
     .audio-container {
       margin: 20px 0;
       background: #fff5f5;
@@ -89,21 +86,20 @@
       font-size: 0.9rem;
       color: #888;
     }
-
-    /* Cake section */
-    .cake-area {
-      margin: 30px 0;
-      position: relative;
+    .audio-note {
+      font-size: 0.8rem;
+      color: #e85d75;
+      margin-top: 5px;
     }
+
+    .cake-area { margin: 30px 0; position: relative; }
     .cake-img {
       font-size: 5rem;
       cursor: pointer;
       transition: transform 0.3s;
       user-select: none;
     }
-    .cake-img:hover {
-      transform: scale(1.1);
-    }
+    .cake-img:hover { transform: scale(1.1); }
     .candles {
       display: none;
       font-size: 2.5rem;
@@ -123,7 +119,6 @@
       font-weight: bold;
     }
 
-    /* Quiz section */
     .quiz-section {
       margin: 30px 0;
       background: #f0f9ff;
@@ -236,25 +231,22 @@
       Hope your day is filled with all the joy you bring to others! 💖
     </p>
 
-    <!-- Music player with new song -->
     <div class="audio-container">
       <span>🎵</span>
       <button id="playBtn" class="audio-btn">▶️</button>
       <span class="now-playing">Henok Abebe - Leyu Ken</span>
     </div>
+    <p class="audio-note">🔊 Tap play (if it doesn't start, an alert will explain why)</p>
     <audio id="birthdayAudio" loop>
       <source src="Henok Abebe - Leyu Ken.mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
     </audio>
 
-    <!-- 🎂 Interactive cake -->
     <div class="cake-area">
       <div class="cake-img" id="cake">🎂</div>
       <div class="candles" id="candles">🕯️🕯️🕯️🕯️🕯️</div>
       <div class="blow-text" id="blowHint">Click the candles to blow them out! 💨</div>
     </div>
 
-    <!-- 🧠 Friendly Quiz / Joke Questions -->
     <div class="quiz-section">
       <p style="font-weight:bold; font-size:1.2rem;">🤔 Friendly Ketsela Quiz</p>
       <p style="margin-bottom:10px;">Answer these silly questions (no wrong answers!)</p>
@@ -283,7 +275,6 @@
       <div class="quiz-result" id="quizResult"></div>
     </div>
 
-    <!-- Letter -->
     <div class="letter">
       <h3>📜 A small letter, big truth</h3>
       <p>
@@ -294,7 +285,6 @@
       </p>
     </div>
 
-    <!-- Joke -->
     <div class="joke">
       🤣 “Why did the football pitch become a birthday cake?<br>
       Because Ketsela was about to get iced… 🧊<br>
@@ -302,10 +292,8 @@
       Our friendship. And also…”
     </div>
 
-    <!-- GOAT line -->
     <p class="goat-line">🐐 Messi is the GOAT. No debate. ⚽🏆</p>
 
-    <!-- Confetti explosion button -->
     <button class="confetti-btn" onclick="launchConfetti()">🎉 Celebrate Ketsela!</button>
     <div class="hidden-message" id="secretMsg">
       P.S. You’re not just a friend – you’re family. 🫶<br>
@@ -314,10 +302,13 @@
   </div>
 
   <script>
-    // ---------- AUDIO PLAYER ----------
     const audio = document.getElementById('birthdayAudio');
     const playBtn = document.getElementById('playBtn');
     let isPlaying = false;
+
+    audio.addEventListener('error', () => {
+      alert('❌ Music file not found!\nMake sure "Henok Abebe - Leyu Ken.mp3" is uploaded EXACTLY like that (spaces, capitals, .mp3).');
+    });
 
     playBtn.addEventListener('click', () => {
       if (isPlaying) {
@@ -328,15 +319,14 @@
         audio.play().then(() => {
           playBtn.textContent = '⏸️';
           isPlaying = true;
-        }).catch(() => {
-          alert('🎵 Click again – the browser needs you to interact first!');
+        }).catch(err => {
+          alert('🎵 Could not play music.\n' + err.message + '\n\nCheck that the MP3 file exists and is named correctly.');
         });
       }
     });
     audio.addEventListener('play', () => { playBtn.textContent = '⏸️'; isPlaying = true; });
     audio.addEventListener('pause', () => { playBtn.textContent = '▶️'; isPlaying = false; });
 
-    // ---------- CAKE SURPRISE ----------
     const cake = document.getElementById('cake');
     const candles = document.getElementById('candles');
     const blowHint = document.getElementById('blowHint');
@@ -359,7 +349,6 @@
       }
     });
 
-    // ---------- FRIENDLY QUIZ (JOKE QUESTIONS) ----------
     const quizResult = document.getElementById('quizResult');
     let answers = { q1: null, q2: null, q3: null };
 
@@ -404,7 +393,6 @@
     setupQuizSection('q2-options', 'q2');
     setupQuizSection('q3-options', 'q3');
 
-    // ---------- MAIN CONFETTI BUTTON ----------
     function launchConfetti() {
       confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
       confetti({ particleCount: 60, angle: 60, spread: 55, origin: { x: 0 } });
@@ -413,4 +401,4 @@
     }
   </script>
 </body>
-          </html>
+  </html>
